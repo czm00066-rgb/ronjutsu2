@@ -209,6 +209,9 @@ document.addEventListener("keydown", (e) => {
 const tabNormal = document.getElementById("tabNormal");
 const tabSpeed = document.getElementById("tabSpeed");
 const modeHint = document.getElementById("modeHint");
+const tabNormal2 = document.getElementById("tabNormal2");
+const tabSpeed2 = document.getElementById("tabSpeed2");
+const modeHint2 = document.getElementById("modeHint2");
 const speedCard = document.getElementById("speedCard");
 
 // Speed elements
@@ -231,19 +234,23 @@ function setMode(nextMode){
   mode = nextMode;
   const normalCard = document.getElementById("normalCard");
   if(mode === "normal"){
-    tabNormal.classList.add("active");
-    tabSpeed.classList.remove("active");
-    tabNormal.setAttribute("aria-selected","true");
-    tabSpeed.setAttribute("aria-selected","false");
-    modeHint.textContent = "通常：1問ずつ判定";
+    // tabs (top)
+    if(tabNormal){ tabNormal.classList.add("active"); tabNormal.setAttribute("aria-selected","true"); }
+    if(tabSpeed){ tabSpeed.classList.remove("active"); tabSpeed.setAttribute("aria-selected","false"); }
+    // tabs (speed top)
+    if(tabNormal2){ tabNormal2.classList.add("active"); tabNormal2.setAttribute("aria-selected","true"); }
+    if(tabSpeed2){ tabSpeed2.classList.remove("active"); tabSpeed2.setAttribute("aria-selected","false"); }
+    if(modeHint) modeHint.textContent = "通常：1問ずつ判定";
+    if(modeHint2) modeHint2.textContent = "通常：1問ずつ判定";
     speedCard.style.display = "none";
     normalCard.style.display = "";
   }else{
-    tabSpeed.classList.add("active");
-    tabNormal.classList.remove("active");
-    tabSpeed.setAttribute("aria-selected","true");
-    tabNormal.setAttribute("aria-selected","false");
-    modeHint.textContent = "スピード：形式＋意図のみを10連続で判定";
+    if(tabSpeed){ tabSpeed.classList.add("active"); tabSpeed.setAttribute("aria-selected","true"); }
+    if(tabNormal){ tabNormal.classList.remove("active"); tabNormal.setAttribute("aria-selected","false"); }
+    if(tabSpeed2){ tabSpeed2.classList.add("active"); tabSpeed2.setAttribute("aria-selected","true"); }
+    if(tabNormal2){ tabNormal2.classList.remove("active"); tabNormal2.setAttribute("aria-selected","false"); }
+    if(modeHint) modeHint.textContent = "スピード：形式＋意図のみを10連続で判定";
+    if(modeHint2) modeHint2.textContent = "スピード：形式＋意図のみ";
     normalCard.style.display = "none";
     speedCard.style.display = "";
     startSpeed();
@@ -351,6 +358,10 @@ function speedNext(isSkip=false){
 if(tabNormal && tabSpeed){
   tabNormal.addEventListener("click", ()=>setMode("normal"));
   tabSpeed.addEventListener("click", ()=>setMode("speed"));
+}
+if(tabNormal2 && tabSpeed2){
+  tabNormal2.addEventListener("click", ()=>setMode("normal"));
+  tabSpeed2.addEventListener("click", ()=>setMode("speed"));
 }
 if(btnSpeedNext) btnSpeedNext.addEventListener("click", ()=>speedNext(false));
 if(btnSpeedSkip) btnSpeedSkip.addEventListener("click", ()=>speedNext(true));
