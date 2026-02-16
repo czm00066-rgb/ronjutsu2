@@ -13,7 +13,7 @@
   </header>
 
   <main class="container">
-    <section class="card">
+    <section class="card" id="normalCard">
       <div class="row">
         <div class="pill" id="qid"></div>
         <div class="spacer"></div>
@@ -34,7 +34,60 @@
         </div>
       </div>
 
-      <section class="card" id="speedCard" style="display:none; margin-top:14px;">
+      
+
+<div class="section">
+        <div class="label">下線B</div>
+        <div class="underlineB" id="underlineB"></div>
+        <div class="tips" id="tips"></div>
+      </div>
+
+      <div class="section grid2">
+        <div>
+          <div class="label">① 形式</div>
+          <div class="choices" id="formChoices">
+            <label class="choice"><input type="radio" name="form" value="question" />問いかけ（質問形式）</label>
+            <label class="choice"><input type="radio" name="form" value="confirm" />伝え返し（確認形式）</label>
+          </div>
+        </div>
+        <div>
+          <div class="label">② 主たる意図</div>
+          <div class="choices" id="intentChoices">
+            <label class="choice"><input type="radio" name="intent" value="info" />情報収集（状況把握）</label>
+            <label class="choice"><input type="radio" name="intent" value="insight" />気づき促進</label>
+            <label class="choice"><input type="radio" name="intent" value="accept" />受容（関係維持）</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">③ 解答（2行想定）</div>
+        <textarea id="answer" rows="4" placeholder="例：〜を確認し、〜を把握し、今後の支援方針の見立てを行うため。"></textarea>
+        <div class="charcount small" id="charCount">文字数：0</div>
+        <div class="row">
+          <button class="btn" id="btnCheck">判定</button>
+          <button class="btn ghost" id="btnShowModel">模範を表示</button>
+          <button class="btn ghost" id="btnCopyAnswer">回答をコピー</button>
+          <button class="btn ghost" id="btnClearAnswer">この回答を消す</button>
+          <div class="spacer"></div>
+          <div class="small" id="progress"></div>
+        </div>
+      </div>
+
+      <div class="section" id="resultSection" style="display:none;">
+        <div class="label">結果</div>
+        <div id="result" class="result"></div>
+
+        <div class="label">模範解答</div>
+        <div class="model" id="modelAnswer"></div>
+
+        <div class="label">チェック（任意）</div>
+        <ul class="checklist" id="checklist"></ul>
+      </div>
+
+    </section>
+
+<section class="card" id="speedCard" style="display:none; margin-top:14px;">
         <div class="row">
           <div class="pill" id="speedProgress"></div>
           <div class="spacer"></div>
@@ -83,54 +136,7 @@
         </div>
       </section>
 
-<div class="section">
-        <div class="label">下線B</div>
-        <div class="underlineB" id="underlineB"></div>
-        <div class="tips" id="tips"></div>
-      </div>
 
-      <div class="section grid2">
-        <div>
-          <div class="label">① 形式</div>
-          <div class="choices" id="formChoices">
-            <label class="choice"><input type="radio" name="form" value="question" />問いかけ（質問形式）</label>
-            <label class="choice"><input type="radio" name="form" value="confirm" />伝え返し（確認形式）</label>
-          </div>
-        </div>
-        <div>
-          <div class="label">② 主たる意図</div>
-          <div class="choices" id="intentChoices">
-            <label class="choice"><input type="radio" name="intent" value="info" />情報収集（状況把握）</label>
-            <label class="choice"><input type="radio" name="intent" value="insight" />気づき促進</label>
-            <label class="choice"><input type="radio" name="intent" value="accept" />受容（関係維持）</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">③ 解答（2行想定）</div>
-        <textarea id="answer" rows="4" placeholder="例：〜を確認し、〜を把握し、今後の支援方針の見立てを行うため。"></textarea>
-        <div class="row">
-          <button class="btn" id="btnCheck">判定</button>
-          <button class="btn ghost" id="btnShowModel">模範を表示</button>
-          <button class="btn ghost" id="btnCopyModel">模範をコピー</button>
-          <div class="spacer"></div>
-          <div class="small" id="progress"></div>
-        </div>
-      </div>
-
-      <div class="section" id="resultSection" style="display:none;">
-        <div class="label">結果</div>
-        <div id="result" class="result"></div>
-
-        <div class="label">模範解答</div>
-        <div class="model" id="modelAnswer"></div>
-
-        <div class="label">チェック（任意）</div>
-        <ul class="checklist" id="checklist"></ul>
-      </div>
-
-    </section>
   </main>
 
   <footer class="footer">

@@ -9,7 +9,9 @@ const tipsEl = $("tips");
 const answerEl = $("answer");
 const btnCheck = $("btnCheck");
 const btnShowModel = $("btnShowModel");
-const btnCopyModel = $("btnCopyModel");
+const btnCopyAnswer = document.getElementById("btnCopyAnswer");
+const btnClearAnswer = document.getElementById("btnClearAnswer");
+const charCountEl = document.getElementById("charCount");
 const btnPrev = $("btnPrev");
 const btnNext = $("btnNext");
 const progressEl = $("progress");
@@ -20,11 +22,19 @@ const modelAnswerEl = $("modelAnswer");
 const checklistEl = $("checklist");
 
 let idx = 0;
+let modelVisible = false;
 
 const KEYWORDS = [
   { label: "「確認し／把握し／明確にし」系", re: /(確認|把握|明確|整理)/ },
   { label: "固定結び（支援方針＋見立て）", re: /支援方針.*見立てを行うため/ },
 ];
+
+function updateCharCount(){
+  if(!charCountEl) return;
+  const n = (answerEl.value || "").length;
+  charCountEl.textContent = `文字数：${n}`;
+}
+answerEl.addEventListener("input", updateCharCount);
 
 function getSelected(name){
   const el = document.querySelector(`input[name="${name}"]:checked`);
@@ -60,6 +70,8 @@ function render(){
   clearSelected("form");
   clearSelected("intent");
   answerEl.value = "";
+  modelVisible = false;
+  if(charCountEl) charCountEl.textContent = "文字数：0";
 
   // hide results
   resultSection.style.display = "none";
@@ -90,6 +102,7 @@ function check(){
   }
 
   resultSection.style.display = "block";
+  modelVisible = true;
   modelAnswerEl.textContent = q.modelAnswer;
 
   // checklist
@@ -116,7 +129,24 @@ function check(){
 
 function showModel(){
   const q = S2_QUESTIONS[idx];
+  if(modelVisible){
+    modelVisible = false;
+    modelAnswerEl.textContent = "";
+    if(resultEl.textContent === "模範を表示しました。"){
+      resultSection.style.display = "none";
+      resultEl.className = "result";
+      resultEl.textContent = "";
+    }else{
+      resultSection.style.display = "block";
+      resultEl.className = "result";
+      resultEl.textContent = "模範をクリアしました。";
+    }
+    checklistEl.innerHTML = "";
+    return;
+  }
+  modelVisible = true;
   resultSection.style.display = "block";
+  modelVisible = true;
   modelAnswerEl.textContent = q.modelAnswer;
   if(!resultEl.textContent){
     resultEl.className = "result";
@@ -124,25 +154,39 @@ function showModel(){
   }
 }
 
-async function copyModel(){
-  const q = S2_QUESTIONS[idx];
+async function copyAnswer(){
+  const text = (answerEl.value || "").trim();
+  if(!text){
+    resultSection.style.display = "block";
+    resultEl.className = "result ng";
+    resultEl.textContent = "回答が空です。";
+    modelAnswerEl.textContent = "";
+    checklistEl.innerHTML = "";
+    modelVisible = false;
+    return;
+  }
   try{
-    await navigator.clipboard.writeText(q.modelAnswer);
+    await navigator.clipboard.writeText(text);
     resultSection.style.display = "block";
     resultEl.className = "result ok";
-    resultEl.textContent = "模範解答をコピーしました。";
-    modelAnswerEl.textContent = q.modelAnswer;
+    resultEl.textContent = "回答をコピーしました。";
   }catch(e){
     resultSection.style.display = "block";
     resultEl.className = "result ng";
     resultEl.textContent = "コピーできませんでした（ブラウザの権限設定をご確認ください）。";
-    modelAnswerEl.textContent = q.modelAnswer;
   }
+}
+
+function clearAnswer(){
+  answerEl.value = "";
+  updateCharCount();
 }
 
 btnCheck.addEventListener("click", check);
 btnShowModel.addEventListener("click", showModel);
-btnCopyModel.addEventListener("click", copyModel);
+if(btnCopyAnswer) btnCopyAnswer.addEventListener("click", copyAnswer);
+if(btnClearAnswer) btnClearAnswer.addEventListener("click", clearAnswer);
+
 
 btnPrev.addEventListener("click", () => {
   idx = (idx - 1 + S2_QUESTIONS.length) % S2_QUESTIONS.length;
@@ -185,7 +229,7 @@ let speedSkipped = 0;
 
 function setMode(nextMode){
   mode = nextMode;
-  const normalCard = document.querySelector("main .card"); // first card is normal
+  const normalCard = document.getElementById("normalCard");
   if(mode === "normal"){
     tabNormal.classList.add("active");
     tabSpeed.classList.remove("active");

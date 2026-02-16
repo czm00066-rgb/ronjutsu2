@@ -120,3 +120,5 @@ textarea::placeholder{color:#6f7080}
 .modebar{display:flex;gap:6px;align-items:center;margin-left:10px}
 .tab{padding:8px 10px;border-radius:999px}
 .tab.active{background:rgba(243,201,105,.12);border-color:rgba(243,201,105,.35)}
+
+.charcount{margin-top:6px;margin-left:2px}
