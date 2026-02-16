@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>設問2トレーニング（下線B）</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="title">設問2トレーニング（下線B）</div>
+    <div class="subtitle">形式（質問/確認）＋主意図（情報/気づき/受容）＋2行答案（固定結び）</div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <div class="row">
+        <div class="pill" id="qid"></div>
+        <div class="spacer"></div>
+        <button class="btn ghost" id="btnPrev" title="前へ">◀</button>
+        <button class="btn ghost" id="btnNext" title="次へ">▶</button>
+      </div>
+
+      
+      <div class="section">
+        <div class="row">
+          <div class="label" style="margin:0;">モード</div>
+          <div class="modebar" role="tablist" aria-label="mode">
+            <button class="btn ghost tab active" id="tabNormal" aria-selected="true">通常</button>
+            <button class="btn ghost tab" id="tabSpeed" aria-selected="false">スピード10連続</button>
+          </div>
+          <div class="spacer"></div>
+          <div class="small" id="modeHint">通常：1問ずつ判定</div>
+        </div>
+      </div>
+
+      <section class="card" id="speedCard" style="display:none; margin-top:14px;">
+        <div class="row">
+          <div class="pill" id="speedProgress"></div>
+          <div class="spacer"></div>
+          <button class="btn ghost" id="btnSpeedRestart" title="最初から">↻</button>
+        </div>
+
+        <div class="section">
+          <div class="label">下線B（スピード）</div>
+          <div class="underlineB" id="speedUnderlineB"></div>
+        </div>
+
+        <div class="section grid2">
+          <div>
+            <div class="label">① 形式</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="speed_form" value="question" />問いかけ（質問形式）</label>
+              <label class="choice"><input type="radio" name="speed_form" value="confirm" />伝え返し（確認形式）</label>
+            </div>
+          </div>
+          <div>
+            <div class="label">② 主たる意図</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="speed_intent" value="info" />情報収集（状況把握）</label>
+              <label class="choice"><input type="radio" name="speed_intent" value="insight" />気づき促進</label>
+              <label class="choice"><input type="radio" name="speed_intent" value="accept" />受容（関係維持）</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="row">
+            <button class="btn" id="btnSpeedNext">次へ（Enter）</button>
+            <button class="btn ghost" id="btnSpeedSkip">スキップ</button>
+            <div class="spacer"></div>
+            <div class="small">※スピードは形式＋意図のみ（文章入力なし）</div>
+          </div>
+        </div>
+
+        <div class="section" id="speedResultSection" style="display:none;">
+          <div class="label">結果（10問終了後）</div>
+          <div class="result" id="speedSummary"></div>
+          <div class="section">
+            <div class="label">間違い一覧</div>
+            <div class="model" id="speedMissList" style="white-space:pre-wrap;"></div>
+          </div>
+        </div>
+      </section>
+
+<div class="section">
+        <div class="label">下線B</div>
+        <div class="underlineB" id="underlineB"></div>
+        <div class="tips" id="tips"></div>
+      </div>
+
+      <div class="section grid2">
+        <div>
+          <div class="label">① 形式</div>
+          <div class="choices" id="formChoices">
+            <label class="choice"><input type="radio" name="form" value="question" />問いかけ（質問形式）</label>
+            <label class="choice"><input type="radio" name="form" value="confirm" />伝え返し（確認形式）</label>
+          </div>
+        </div>
+        <div>
+          <div class="label">② 主たる意図</div>
+          <div class="choices" id="intentChoices">
+            <label class="choice"><input type="radio" name="intent" value="info" />情報収集（状況把握）</label>
+            <label class="choice"><input type="radio" name="intent" value="insight" />気づき促進</label>
+            <label class="choice"><input type="radio" name="intent" value="accept" />受容（関係維持）</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">③ 解答（2行想定）</div>
+        <textarea id="answer" rows="4" placeholder="例：〜を確認し、〜を把握し、今後の支援方針の見立てを行うため。"></textarea>
+        <div class="row">
+          <button class="btn" id="btnCheck">判定</button>
+          <button class="btn ghost" id="btnShowModel">模範を表示</button>
+          <button class="btn ghost" id="btnCopyModel">模範をコピー</button>
+          <div class="spacer"></div>
+          <div class="small" id="progress"></div>
+        </div>
+      </div>
+
+      <div class="section" id="resultSection" style="display:none;">
+        <div class="label">結果</div>
+        <div id="result" class="result"></div>
+
+        <div class="label">模範解答</div>
+        <div class="model" id="modelAnswer"></div>
+
+        <div class="label">チェック（任意）</div>
+        <ul class="checklist" id="checklist"></ul>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span class="small">※保存・統計なし／結び自動挿入なし（手入力）</span>
+  </footer>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
