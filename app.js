@@ -16,6 +16,31 @@ const btnPrev = $("btnPrev");
 const btnNext = $("btnNext");
 const progressEl = $("progress");
 
+// ---- Type filter (all / question / confirm) ----
+const filterEl1 = document.getElementById("typeFilter");
+const filterEl2 = document.getElementById("typeFilter2");
+
+function setFilter(val){
+  currentFilter = val || "all";
+  idx = 0;
+  if(filterEl1) filterEl1.value = currentFilter;
+  if(filterEl2) filterEl2.value = currentFilter;
+  // 再描画
+  if(mode === "speed"){
+    startSpeed();
+  } else {
+    render();
+  }
+}
+
+if(filterEl1){
+  filterEl1.addEventListener("change", (e)=> setFilter(e.target.value));
+}
+if(filterEl2){
+  filterEl2.addEventListener("change", (e)=> setFilter(e.target.value));
+}
+
+
 const resultSection = $("resultSection");
 const resultEl = $("result");
 const modelAnswerEl = $("modelAnswer");
@@ -394,29 +419,3 @@ document.addEventListener("keydown", (e)=>{
 
 render();
 
-
-document.addEventListener("DOMContentLoaded", ()=>{
-  const f1 = document.getElementById("typeFilter");
-  const f2 = document.getElementById("typeFilter2");
-  function apply(val){
-    currentFilter = val;
-    idx = 0;
-    if(mode==="speed"){
-      startSpeed();
-    } else {
-      render();
-    }
-  }
-  if(f1){
-    f1.addEventListener("change", e=>{
-      if(f2) f2.value = e.target.value;
-      apply(e.target.value);
-    });
-  }
-  if(f2){
-    f2.addEventListener("change", e=>{
-      if(f1) f1.value = e.target.value;
-      apply(e.target.value);
-    });
-  }
-});
