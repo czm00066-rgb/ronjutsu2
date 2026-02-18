@@ -29,8 +29,7 @@
             <button class="btn ghost tab active" id="tabNormal" aria-selected="true">通常</button>
             <button class="btn ghost tab" id="tabSpeed" aria-selected="false">スピード10連続</button>
           </div>
-          <div class="spacer"></div>
-          <div class="small" id="modeHint">通常：1問ずつ判定</div>
+          <div class="spacer"></div><select id="typeFilter" class="btn ghost" style="margin-right:8px;"><option value="all">すべて</option><option value="question">問いかけ（質問形式）</option><option value="confirm">伝え返し（確認形式）</option></select><div class="small" id="modeHint">通常：1問ずつ判定</div>
         </div>
       </div>
 
@@ -101,8 +100,7 @@
               <button class="btn ghost tab" id="tabNormal2" aria-selected="false">通常</button>
               <button class="btn ghost tab active" id="tabSpeed2" aria-selected="true">スピード10連続</button>
             </div>
-            <div class="spacer"></div>
-            <div class="small" id="modeHint2">スピード：形式＋意図のみ</div>
+            <div class="spacer"></div><select id="typeFilter2" class="btn ghost" style="margin-right:8px;"><option value="all">すべて</option><option value="question">問いかけ（質問形式）</option><option value="confirm">伝え返し（確認形式）</option></select><div class="small" id="modeHint2">スピード：形式＋意図のみ</div>
           </div>
         </div>
 

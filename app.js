@@ -22,6 +22,13 @@ const modelAnswerEl = $("modelAnswer");
 const checklistEl = $("checklist");
 
 let idx = 0;
+
+let currentFilter = "all";
+function getActiveQuestions(){
+  if(currentFilter==="all") return S2_QUESTIONS;
+  return S2_QUESTIONS.filter(q=> q.form === currentFilter);
+}
+
 let modelVisible = false;
 
 const KEYWORDS = [
@@ -49,8 +56,11 @@ function clearSelected(name){
 }
 
 function render(){
-  const q = S2_QUESTIONS[idx];
-  qidEl.textContent = `${q.id} / 全${S2_QUESTIONS.length}`;
+  const list = getActiveQuestions();
+  if(list.length===0){ underlineBEl.textContent='（該当問題なし）'; return; }
+  if(idx>=list.length) idx=0;
+  const q = list[idx];
+  qidEl.textContent = `${q.id} / 全${getActiveQuestions().length}`;
   underlineBEl.textContent = q.underlineB;
 
   // tips
@@ -84,7 +94,10 @@ function render(){
 }
 
 function check(){
-  const q = S2_QUESTIONS[idx];
+  const list = getActiveQuestions();
+  if(list.length===0){ underlineBEl.textContent='（該当問題なし）'; return; }
+  if(idx>=list.length) idx=0;
+  const q = list[idx];
   const form = getSelected("form");
   const intent = getSelected("intent");
   const ans = answerEl.value.trim();
@@ -128,7 +141,10 @@ function check(){
 }
 
 function showModel(){
-  const q = S2_QUESTIONS[idx];
+  const list = getActiveQuestions();
+  if(list.length===0){ underlineBEl.textContent='（該当問題なし）'; return; }
+  if(idx>=list.length) idx=0;
+  const q = list[idx];
   if(modelVisible){
     modelVisible = false;
     modelAnswerEl.textContent = "";
@@ -189,11 +205,11 @@ if(btnClearAnswer) btnClearAnswer.addEventListener("click", clearAnswer);
 
 
 btnPrev.addEventListener("click", () => {
-  idx = (idx - 1 + S2_QUESTIONS.length) % S2_QUESTIONS.length;
+  const list = getActiveQuestions(); idx = (idx - 1 + list.length) % list.length;
   render();
 });
 btnNext.addEventListener("click", () => {
-  idx = (idx + 1) % S2_QUESTIONS.length;
+  const list = getActiveQuestions(); idx = (idx + 1) % list.length;
   render();
 });
 
@@ -276,7 +292,7 @@ function getSpeedSelected(name){
 }
 
 function startSpeed(){
-  const ids = S2_QUESTIONS.map((_, i)=>i);
+  const active = getActiveQuestions(); const ids = active.map((_, i)=>i);
   speedOrder = shuffle(ids).slice(0, Math.min(10, ids.length));
   speedPos = 0;
   speedWrong = [];
@@ -293,7 +309,7 @@ function renderSpeed(){
     finishSpeed();
     return;
   }
-  const q = S2_QUESTIONS[speedOrder[speedPos]];
+  const active = getActiveQuestions(); const q = active[speedOrder[speedPos]];
   speedProgressEl.textContent = `スピード ${speedPos+1} / ${total}`;
   speedUnderlineBEl.textContent = q.underlineB;
   clearSpeedSelected();
@@ -322,7 +338,7 @@ function finishSpeed(){
 
 function speedNext(isSkip=false){
   const total = speedOrder.length;
-  const q = S2_QUESTIONS[speedOrder[speedPos]];
+  const active = getActiveQuestions(); const q = active[speedOrder[speedPos]];
   if(isSkip){
     speedSkipped += 1;
   }else{
@@ -377,3 +393,30 @@ document.addEventListener("keydown", (e)=>{
 });
 
 render();
+
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  const f1 = document.getElementById("typeFilter");
+  const f2 = document.getElementById("typeFilter2");
+  function apply(val){
+    currentFilter = val;
+    idx = 0;
+    if(mode==="speed"){
+      startSpeed();
+    } else {
+      render();
+    }
+  }
+  if(f1){
+    f1.addEventListener("change", e=>{
+      if(f2) f2.value = e.target.value;
+      apply(e.target.value);
+    });
+  }
+  if(f2){
+    f2.addEventListener("change", e=>{
+      if(f1) f1.value = e.target.value;
+      apply(e.target.value);
+    });
+  }
+});
